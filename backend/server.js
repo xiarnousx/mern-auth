@@ -17,6 +17,13 @@ app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 
+if (process.env.NODE_ENV === "production") {
+  const dirname = path.resolve();
+  app.use(express.static(path.json(dirname, "forntend/dist")));
+  app.get("*", (req, res) =>
+    res.send(path.resolve(dirname, "frontend", "dist", "index.html"))
+  );
+}
 app.get("/", (req, res) => {
   res.send("server is ready");
 });
